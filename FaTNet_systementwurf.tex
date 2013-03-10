@@ -73,12 +73,14 @@ Im folgenden Abschnitt wird grob auf die Softwarearchitektur eingegangen. Es wir
 Die Programmierung der verwendeten STM32-Mikrocontroller erfolgt in C++. Dabei wird auf die XPCC-Library (Cross Platform Component Communication) zurückgegriffen.
 
 \subsubsection{Grundstruktur}
-Nachdem der Mikrocontroller mit Spannung versorgt wird und gebootet ist, wird mit der Initialisierung der einzelnen Softwaremodule begonnen. Geplant sind folgende Module: 
+Abbildung \ref{fig:init} zeigt den Ablauf der Initialisierung der Software. Zunächst werden die einzelnen Module initialisiert. Wenn dies erfolgreich durchgelaufen ist werden das Kommunikationsprotokoll und der Systick-Handler gestartet und in eine Endlosschleife gewechselt. Tritt bei der Initialisierung ein Fehler auf wird je nach Fehlerfall versucht diesen zu beheben oder der Vorgang von vorne gestartet. Der Status wird dabei durch Leuchtdioden signalisiert.
+Die Endlosschleife ist in Abbildung \ref{fig:schleife} dargestellt.
+
 \paragraph{CAN-Bus und  Protokoll}$\;$\\
-Dieses Modul dient zur Kommunikation zwischen den verschiedenen STM-Boards. Dabei bildet der CAN-Bus das grundlegende Kommunikationsinterface. Auf dieses wird ein an der Problemstellung angepasstes Protokoll aufgesetzt. Eine funktionierende Kommunikation ist Voraussetzung um am Netzwerk teilzunehmen.
+Dieses Modul dient zur Kommunikation zwischen den verschiedenen STM-Boards. Dabei bildet der CAN-Bus die unterste Schicht der Kommunikation. Auf dieses wird ein an die Problemstellung angepasstes Protokoll aufgesetzt. %Satz auskommentiert lt. Review:"Eine funktionierende Kommunikation ist Voraussetzung um am Netzwerk teilzunehmen."
 
 \paragraph{Heartbeat}$\;$\\
-Durch den Heartbeat wird den übrigen Komponenten mitgeteilt, dass der Absender im Netzwerk zur Verfügung steht. Gegebenfalls können Fehler, die bei einem Teilnehmer auftreten, übermittelt werden. Ist es nicht möglich einen Heartbeat zu senden wird davon ausgegangen das keine Kommunikation vorhanden ist und es kommt zu einer  Fehlerbehandlung. Solange ein Heartbeat über das Netzwerk empfangen kann mit den Absender kommuniziert werden.
+Durch den Heartbeat wird den übrigen Komponenten mitgeteilt, dass der Absender im Netzwerk zur Verfügung steht. Gegebenfalls können Fehler, die bei einem Teilnehmer auftreten, übermittelt werden. Ist es nicht möglich einen Heartbeat zu senden wird davon ausgegangen, dass keine Kommunikation vorhanden ist und es kommt zu einer  Fehlerbehandlung. Solange ein Heartbeat über das Netzwerk empfangen wird kann mit den Absender kommuniziert werden.
 
 \paragraph{SysTick}$\;$\\
 Der SysTick-Handler wird in fest definierten Zeitabständen per Interrupt aufgerufen. Im Handler werden Aufgaben ausgeführt die in regelmäßigen Abständen von Nöten sind. Beispielsweise die Regelung und der Heartbeat.
@@ -93,13 +95,13 @@ Dienen zur Vermeidung von Kollisionen. Deren Werte fließen ebenfalls in der Weg
 Die Regelung wird regelmäßig im SysTick-Handler ausgeführt. Die durch die Trajektorie vorgegebenen Soll-Werte werden mit den Ist-Werten der Encoder, welche die Drehzahl der Motoren zurückgeben, verglichen und gegebenfalls korrigiert. Der Voter legt in gleichmäßigen Zeitabständen einen Mikrocontroller als Master fest, der die Motoren regelt.
 
 \paragraph{Roboterarm}$\;$\\
-Befindet sich das System in der Position, dass der Manipulatior mit dem Ziel interagieren kann wird von der Wegplanung auf die Manipulatorsteuerung umgeschaltet. Die Winkelvorgabe der Aktuatoren geschieht per inverser Kinematik. Dabei müssen für den Ausfall von Aktuatoren mehrere Kinematik vorhanden sein, um das Ziel weiterhin zu erreichen.
+Befindet sich das System in der Position, dass der Manipulatior mit dem Ziel interagieren kann wird von der Wegplanung auf die Manipulatorsteuerung umgeschaltet. Die Winkelvorgabe der Aktuatoren geschieht per inverser Kinematik. Dabei müssen für den Ausfall von Aktuatoren mehrere Kinematiken vorhanden sein, um das Ziel weiterhin zu erreichen.
  
 \begin{figure}[H]
 \centering
   \begin{minipage}[b]{0.49\linewidth}
     \includegraphics[width=\linewidth]{Bilder/FaTNet_init} 
-    \caption{Flussdiagramm zur Initialisierung }
+    \caption{Flussdiagramm zur Initialisierung}
     \label{fig:init}
   \end{minipage}
   \begin{minipage}[b]{0.49\linewidth}
