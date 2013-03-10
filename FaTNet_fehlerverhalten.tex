@@ -1,6 +1,6 @@
 \section{Fehlerverhalten}
 \label{Fehlervehalten}
-Folgend ist beschrieben wie das System auf die injizierten Fehler reagiert und dadurch die Projektanforderungen an Zuverlässigkeit und Fehlertoleranz erfüllt.
+Folgend ist beschrieben wie das System auf die anfallenden bzw. in diesem Fall injizierten Fehler reagiert und dadurch die Projektanforderungen an Zuverlässigkeit und Fehlertoleranz erfüllt.
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{Bilder/FaTNet_fehlerverhalten}
@@ -72,7 +72,7 @@ Beim Ausfall des redundanten CAN-Bus ist keine weitere Kompensation mehr möglic
 
 \paragraph{\textbf{Fehler 6: Abstandssensor fällt aus (siehe Abb. 12)}}$\;$\\
 Die redundanten Abstandssensoren übernehmen die Funktion der ausgefallenen Sensoren.
-Der Ausfall eines Sensors wird dadurch ermittelt, dass dieser keine Daten mehr sendet.
+Der Ausfall eines Sensors wird dadurch ermittelt, dass dieser keine Daten mehr sendet. %Was ist, wenn falsche Daten gesendet werden? Wie erkennen wir die?
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\linewidth]{Bilder/FaTNet_abstandssensoredundanz}
