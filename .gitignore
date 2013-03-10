@@ -19,3 +19,6 @@ bin-release/
 
 #linux temporary files
 *~
+
+#gerfried
+*.geany #probier da gerade was rum.
